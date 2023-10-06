@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+    <style>
+        /* Optional CSS for styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #converter {
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 300px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Currency Converter</h1>
+    <div id="converter">
+        <label for="amount">Enter Amount:</label>
+        <input type="number" id="amount" oninput="convertCurrency()" step="0.01" min="0">
+        <br><br>
+        <label for="fromCurrency">From Currency:</label>
+        <select id="fromCurrency" onchange="convertCurrency()">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+        </select>
+        <br><br>
+        <label for="toCurrency">To Currency:</label>
+        <select id="toCurrency" onchange="convertCurrency()">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+        </select>
+        <br><br>
+        <p>Converted Amount: <span id="convertedAmount">0.00</span></p>
+    </div>
+
+    <script>
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            // Exchange rates (for example purposes only, you should fetch real rates from an API)
+            const exchangeRates = {
+                USD: { EUR: 0.85, INR: 0.72 },
+                EUR: { USD: 1.18, INR: 0.85 },
+                INR: { USD: 0.012 , EUR: 1.18 },
+            };
+
+            if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
+                const rate = exchangeRates[fromCurrency][toCurrency];
+                const convertedAmount = (amount * rate).toFixed(2);
+                document.getElementById('convertedAmount').textContent = convertedAmount;
+            } else {
+                document.getElementById('convertedAmount').textContent = 'N/A';
+            }
+        }
+    </script>
+</body>
+</html>
